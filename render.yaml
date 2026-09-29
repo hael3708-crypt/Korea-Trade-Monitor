@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: korea-trade-monitor
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: python main.py
+    healthCheckPath: /healthz
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.12.3"
+      - key: TRUST_PROXY
+        value: "1"
+      - key: CUSTOMS_API_KEY
+        sync: false   # Render 대시보드에서 직접 입력 (코드/깃에 넣지 마세요)

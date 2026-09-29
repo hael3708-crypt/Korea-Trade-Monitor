@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Korea Trade Monitor</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header class="top">
+  <div>
+    <h1>Korea Trade Monitor</h1>
+    <p class="sub">한국 수출입 섹터별 트래킹 · 출처: 관세청(공공데이터포털)</p>
+  </div>
+  <div class="right"><span id="status" class="status">불러오는 중…</span><button id="refresh" class="btn" type="button">새로고침</button></div>
+</header>
+<div id="banner" class="banner" hidden>샘플(가상) 데이터입니다. 실제 통계가 아닙니다. 서버에 CUSTOMS_API_KEY를 설정하면 관세청 데이터로 전환됩니다.</div>
+<main>
+  <section id="kpis" class="kpis" aria-label="요약"></section>
+  <section id="cards" class="cards" aria-label="섹터"></section>
+  <section class="panel" id="detail">
+    <div class="panel-h"><h2 id="d-title"></h2><span id="d-hs" class="hs"></span>
+      <span class="legend"><i class="lg bar"></i>수출 <i class="lg line"></i>수입</span></div>
+    <form id="d-form" class="prange">
+      <div class="presets" role="group" aria-label="기간 빠른 선택">
+        <button type="button" class="btn sm" data-preset="12">1년</button>
+        <button type="button" class="btn sm" data-preset="24">2년</button>
+        <button type="button" class="btn sm" data-preset="36">3년</button>
+        <button type="button" class="btn sm" data-preset="60">5년</button>
+      </div>
+      <label>시작월 <input id="d-from" type="month"></label>
+      <label>종료월 <input id="d-to" type="month"></label>
+      <button id="d-apply" class="btn pri" type="submit">기간 적용</button>
+      <button id="d-xlsx" class="btn" type="button">이 기간 엑셀</button>
+    </form>
+    <p id="d-msg" class="qmsg" role="status"></p>
+    <div id="d-sum" class="sumline"></div>
+    <div id="chart" class="chartbox"></div>
+    <h3 class="sub3">전년동월비 (YoY) <span class="legend"><i class="lg yl"></i>수출 <i class="lg line"></i>수입</span></h3>
+    <div id="yoy-chart" class="chartbox"></div>
+    <h3 class="sub3">월별 상세 <span class="mut">(괄호 안은 전년동월비)</span></h3>
+    <ul id="rows" class="rows scroll"></ul>
+  </section>
+  <section class="panel search" id="search">
+    <div class="panel-h"><h2>검색 · 엑셀 다운로드</h2><span class="hs">국가 · HS코드 · 품목별 월간 수출입</span></div>
+    <form id="q-form" class="qgrid">
+      <label>HS코드 <input id="q-hs" type="text" inputmode="numeric" maxlength="60" placeholder="예: 8542, 854232 (2·4·6·10자리, 최대 5개)" autocomplete="off"></label>
+      <label>섹터 프리셋 <select id="q-preset"><option value="">직접 입력</option></select></label>
+      <label>국가 <input id="q-cty" type="text" list="q-cty-list" maxlength="60" placeholder="예: 미국, VN (최대 5개)" autocomplete="off"><datalist id="q-cty-list"></datalist></label>
+      <label>품목명 포함 <input id="q-kw" type="text" maxlength="40" placeholder="예: 메모리"></label>
+      <label>시작월 <input id="q-from" type="month"></label>
+      <label>종료월 <input id="q-to" type="month"></label>
+      <div class="qbtn"><button id="q-go" class="btn pri" type="button">검색</button><button id="q-dl" class="btn" type="button">엑셀 다운로드</button></div>
+    </form>
+    <p class="hint">HS코드 또는 국가 중 하나 이상 필수. HS 지정 시 최대 36개월, 국가만 지정 시 최대 12개월. 엑셀에는 월별요약·상세(품목×국가)·조회조건 시트가 포함됩니다.</p>
+    <p id="q-msg" class="qmsg" role="status"></p>
+    <div id="q-res" hidden>
+      <div id="q-chart" class="chartbox"></div>
+      <h3>월별 합계</h3><ul id="q-monthly" class="rows"></ul>
+      <h3>수출 상위 품목 (기간 합계)</h3><ul id="q-top" class="rows"></ul>
+    </div>
+  </section>
+  <footer class="foot">관세청 통계는 월 단위 집계(잠정치 포함)이며 실시간 체결 데이터가 아닙니다. 섹터 = 대표 HS코드 기준 근사치. 금액은 미 달러(USD).</footer>
+</main>
+<script src="/app.js"></script>
+</body>
+</html>
